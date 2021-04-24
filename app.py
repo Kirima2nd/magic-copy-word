@@ -48,21 +48,14 @@ async def main():
             await asyncio.sleep(1.0)
 
             copy_word = pyperclip.paste()
-            result = await scrambler.Unscramble(copy_word)
+            result = scrambler.Unscramble(copy_word)
 
             if result == 'Nothing was found.': 
-                another_result = await scrambler.Guess(copy_word)
+                result = await scrambler.Guess(copy_word)
 
-            print(another_result)
+            pyperclip.copy(result)
 
-            if result != 'Nothing was found.':
-                tmp = ''.join(result)
-            else:
-                tmp = another_result
-            
-            pyperclip.copy(tmp)
-
-            print(f'Word unscrambled, the result is: {tmp}')
+            print(f'Word unscrambled, the result is: {result}')
             pass
 
         if keyboard.is_pressed('f10'):
