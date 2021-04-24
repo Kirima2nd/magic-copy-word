@@ -10,7 +10,7 @@ https://github.com/tinmarr/Word-Unscrambler
 
 Install the required library below using pip:
 ```bash
-pip install mouse keyboard pyperclip 
+pip install mouse keyboard pyperclip aiohttp aiofiles
 ```
 
 Run the app, using these command below:
