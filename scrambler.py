@@ -1,6 +1,7 @@
 import fnmatch
 import Levenshtein
 import asyncio
+import time
 
 def RemoveFromList(thelist, val):
     """
@@ -13,7 +14,7 @@ def GetDic():
     Gets current Dictionary
     """
     try:
-        dicopen = open("DL.txt", "r")
+        dicopen = open("words.txt", "r")
         dicraw = dicopen.read()
         dicopen.close()
         diclist = dicraw.split("\n")
@@ -69,7 +70,7 @@ def Ints2Dic(dic):
 d = GetDic()
 ind = Ints2Dic(d)
 
-async def Unscramble(word):
+def Unscramble(word):
     """
     Unscramble the Word/Text
     and returns 'Nothing was found'
@@ -77,8 +78,18 @@ async def Unscramble(word):
     current Dictionary.
     """
     v = Vect2Int(Word2Vect(word))
-    ret = ind.get(v, 'Nothing was found.')
-    
+    result = ind.get(v, 'Nothing was found.')
+    closests_dist = 0x7FFFFFFF
+    dist = 0
+    ret = 'Nothing was found.'
+
+    if result != 'Nothing was found.':
+        for string in result:
+            dist = Levenshtein.distance(word, string)
+            if dist < closests_dist:
+                closests_dist = dist
+                ret = string
+
     return ret
 
 
@@ -90,8 +101,8 @@ async def Guess(word):
     (I'd say about 80% accuracy)
     """
     closests_dist = 0x7FFFFFFF
-    dist = 1
-    result = 'Nothing was found.'
+    dist = 0
+    result = "Nothing was found."
 
     if '_' in word:
         word = word.replace('_', '?')
