@@ -6,19 +6,26 @@ Source unscrambler word taken from:
 https://github.com/tinmarr/Word-Unscrambler
 
 
-## Usage
+## Installation
+
+Clone the package using git or download maually and extract it somewhere.
+
+```bash
+git clone https://github.com/Kirima2nd/magic-unscrambler-word.git
+```
+
+Then, go to the directory using:
+
+```bash
+cd magic-unscrambler-word
+```
 
 Install the required library below using pip:
 ```bash
 pip3 install -r requirements.txt
 ```
 
-or 
-
-```bash
-pip install -r requirements.txt
-```
-
+## Usage
 Run the app, using these command below:
 ```bash
 python3 app.py
