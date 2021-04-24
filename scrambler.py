@@ -3,6 +3,10 @@ import Levenshtein
 import asyncio
 import time
 
+# You may want to change this
+# if you have any dictionary.txt other than DL.txt
+Dictionary_File = 'DL.txt'
+
 def RemoveFromList(thelist, val):
     """
     Removing Dictionary from list
@@ -14,14 +18,14 @@ def GetDic():
     Gets current Dictionary
     """
     try:
-        dicopen = open("words.txt", "r")
+        dicopen = open(Dictionary_File, "r")
         dicraw = dicopen.read()
         dicopen.close()
-        diclist = dicraw.split("\n")
+        diclist = dicraw.split('\n')
         diclist = RemoveFromList(diclist, '')
         return diclist
     except FileNotFoundError:
-        print("No Dictionary!")
+        print('No Dictionary!')
         return 
     
 def Word2Vect(word):
@@ -102,7 +106,7 @@ async def Guess(word):
     """
     closests_dist = 0x7FFFFFFF
     dist = 0
-    result = "Nothing was found."
+    result = 'Nothing was found.'
 
     if '_' in word:
         word = word.replace('_', '?')
