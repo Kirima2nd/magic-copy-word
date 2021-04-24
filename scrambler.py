@@ -1,3 +1,7 @@
+import fnmatch
+import Levenshtein
+import asyncio
+
 def RemoveFromList(thelist, val):
     """
     Removing Dictionary from list
@@ -65,7 +69,7 @@ def Ints2Dic(dic):
 d = GetDic()
 ind = Ints2Dic(d)
 
-def Unscramble(word):
+async def Unscramble(word):
     """
     Unscramble the Word/Text
     and returns 'Nothing was found'
@@ -77,3 +81,27 @@ def Unscramble(word):
     
     return ret
 
+
+async def Guess(word):
+    """
+    Guessing the word with regex and returns 
+    string closests to the original word
+
+    (I'd say about 80% accuracy)
+    """
+    closests_dist = 0x7FFFFFFF
+    dist = 1
+    result = "Nothing was found"
+
+    if '_' in word:
+        word = word.replace('_', '?')
+
+    filtered = fnmatch.filter(d, word)
+
+    for guess in filtered:
+        dist = Levenshtein.distance(word, guess)
+        if dist < closests_dist:
+            closests_dist = dist
+            result = guess
+
+    return result
