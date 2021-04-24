@@ -21,15 +21,18 @@ import scrambler
 async def main():
     toggleKeys = False
         
-    print('------------------------------')
-    print('      Unscrambler Word        ')
-    print('------------------------------')
-    print('                              ')
-    print('Keys List:                    ')
-    print(' * F4      - Toggle ON/OFF    ')
-    print(' * CTRL+C  - Word Unscrambler ')
-    print(' * F10     - Exit Application ')
-    print('------------------------------')
+    print('----------------------------------')
+    print('        Unscrambler Word          ')
+    print('----------------------------------')
+    print('                                  ')
+    print(f'Using {scrambler.Dictionary_File}')
+    print('as Dictionary List                ')
+    print('                                  ')
+    print('Keys List:                        ')
+    print(' * F4      - Toggle ON/OFF        ')
+    print(' * CTRL+C  - Word Unscrambler     ')
+    print(' * F10     - Exit Application     ')
+    print('----------------------------------')
 
     while True:
         if keyboard.is_pressed('f4'):
