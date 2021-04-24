@@ -91,7 +91,7 @@ async def Guess(word):
     """
     closests_dist = 0x7FFFFFFF
     dist = 1
-    result = "Nothing was found"
+    result = 'Nothing was found.'
 
     if '_' in word:
         word = word.replace('_', '?')
