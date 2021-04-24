@@ -8,6 +8,11 @@ https://github.com/tinmarr/Word-Unscrambler
 
 ## Usage
 
+Install the required library below using pip:
+```bash
+pip install mouse keyboard pyperclip 
+```
+
 Run the app, using these command below:
 ```bash
 python3 app.py
