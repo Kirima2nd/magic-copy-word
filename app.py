@@ -25,7 +25,7 @@ async def main():
     print('Keys List:                        ')
     print(' * F4      - Toggle ON/OFF        ')
     print(' * F5      - Toggle Reversed      ')
-    print(' * CTRL+C  - Word Unscrambler     ')
+    print(' * CTRL+C  - To do the magic      ')
     print(' * F10     - Exit Application     ')
     print('----------------------------------')
 
