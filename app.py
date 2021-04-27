@@ -1,35 +1,30 @@
-# --------------------------------------------
-#              Unscrambler Word
-# --------------------------------------------
-# Just copy your scrambled word and
-# This code will replace your scrambled word
-# with unscrambled one
+# -----------------------------------------------------
+#                Kirima2nd Magic Copy
+# -----------------------------------------------------
+# Toggle and just copy your text and this code
+# will replace your scrambled word with unscrambled one
 #
-# Thanks for tinmarr for the code which you
-# can found it below: 
-# https://github.com/tinmarr/Word-Unscrambler
+# Thanks for tinmarr, stackoverflow, vegaseat, zx9 <3
 #
-# --------------------------------------------
+# -----------------------------------------------------
 
-import mouse
 import keyboard
 import pyperclip
 import asyncio
 
-import scrambler
+import worker
 
 async def main():
     toggleKeys = False
+    reversedKeys = False
         
     print('----------------------------------')
-    print('        Unscrambler Word          ')
+    print('       Kirima2nd Magic Copy       ')
     print('----------------------------------')
-    print('                                  ')
-    print(f'Using {scrambler.Dictionary_File}')
-    print('as Dictionary List                ')
     print('                                  ')
     print('Keys List:                        ')
     print(' * F4      - Toggle ON/OFF        ')
+    print(' * F5      - Toggle Reversed      ')
     print(' * CTRL+C  - Word Unscrambler     ')
     print(' * F10     - Exit Application     ')
     print('----------------------------------')
@@ -38,31 +33,57 @@ async def main():
         if keyboard.is_pressed('f4'):
             await asyncio.sleep(1.0)
 
-            if toggleKeys == False:
+            if reversedKeys == True:
+                print('Disable Reversed Keys first!')
+            elif toggleKeys == False:
                 toggleKeys = True
-                print('Key Toggled: ON')
+                print('[App]: Key Toggled: ON')
 
             elif toggleKeys == True:
                 toggleKeys = False
-                print('Key Toggled: OFF')
+                print('[App]: Key Toggled: OFF')
             pass
+        elif keyboard.is_pressed('f5'):
+            await asyncio.sleep(1.0)
 
+            if toggleKeys == True:
+                toggleKeys = False
+            
+            if reversedKeys == False:
+                reversedKeys = True
+                print('[App]: Reversed Keys: ON')
+
+            elif reversedKeys == True:
+                reversedKeys = False
+                print('[App]: Reversed Keys: OFF')
+            pass
         elif keyboard.is_pressed('ctrl+c') and toggleKeys:
             await asyncio.sleep(1.0)
 
             copy_word = pyperclip.paste()
-            result = scrambler.Unscramble(copy_word)
 
-            if result == 'Nothing was found.': 
-                result = await scrambler.Guess(copy_word)
+            if copy_word.count('_') < 2 or copy_word.count('?') < 2:
+                result = worker.Unscramble(copy_word)
+            else:
+                result = worker.Guess(copy_word)
 
             pyperclip.copy(result)
 
-            print(f'Word unscrambled, the result is: {result}')
+            print(f'[App]: Word unscrambled, the result is: {result}')
             pass
+        elif keyboard.is_pressed('ctrl+c') and reversedKeys:
+            await asyncio.sleep(1.0)
 
-        if keyboard.is_pressed('f10'):
-            print('Exiting Application!')
+            copy_word = pyperclip.paste()
+            
+            result = worker.Reverse(copy_word)
+            pyperclip.copy(result)
+            print(f'[App]: Word reversed, the result is: {result}')
+            pass
+        elif keyboard.is_pressed('f10'):
+            print('[App]: Exiting Application!')
             break
 
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())
