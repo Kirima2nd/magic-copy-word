@@ -38,7 +38,7 @@ def dictionary(fileList):
     infile.close()
     return dict
 
-dic = dictionary('DL.txt')
+dic = dictionary('Dictionary/words.txt')
 
 def Unscramble(anagram):
     """
