@@ -1,122 +1,113 @@
+
 import fnmatch
+import string
+import difflib
 import Levenshtein
-import asyncio
-import time
 
-# You may want to change this
-# if you have any dictionary.txt other than DL.txt
-Dictionary_File = 'DL.txt'
+def permutation(s):
+    """
+    Convert string to permutation/anagram
 
-def RemoveFromList(thelist, val):
-    """
-    Removing Dictionary from list
-    """
-    return [value for value in thelist if value != val]
+    Params:
 
-def GetDic():
+    s - your text to be converted
     """
-    Gets current Dictionary
-    """
-    try:
-        dicopen = open(Dictionary_File, "r")
-        dicraw = dicopen.read()
-        dicopen.close()
-        diclist = dicraw.split('\n')
-        diclist = RemoveFromList(diclist, '')
-        return diclist
-    except FileNotFoundError:
-        print('No Dictionary!')
-        return 
+    if s == "":
+        return [s]
+    else:
+        ans = []
+        for an in permutation(s[1:]):
+            for pos in range(len(an)+1):
+                ans.append(an[:pos]+s[0]+an[pos:])
+        return ans
     
-def Word2Vect(word):
+def dictionary(fileList):
     """
-    Converting Text/Word to Vector
-    """
-    l = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    w = word.lower()
-    wl = list(w)
-    for i in range(0, len(wl)):
-        if wl[i] in l:
-            ind = l.index(wl[i])
-            v[ind] += 1
-    return v
+    Get the contents of dictionary file 
 
-def Vect2Int(vect):
-    """
-    Converting vector to Integer/Number
-    """
-    pv = 0
-    f = 0
-    for i in range(0, len(vect)):
-        wip = (vect[i]*(2**pv))
-        f += wip
-        pv += 4
-    return f
-    
-def Ints2Dic(dic):
-    """
-    Gets Dictionary from an Integer/Number
-    taken from Vec2Int results
-    """
-    d = {}
-    for i in range(0, len(dic)):
-        v = Word2Vect(dic[i])
-        Int = Vect2Int(v)
-        if Int in d:
-            tat = d.get(Int)
-            tat.append(dic[i])
-            d[Int] = tat
-        elif Int not in d:
-            d[Int] = [dic[i]]
-    return d
-        
-d = GetDic()
-ind = Ints2Dic(d)
+    Params:
 
-def Unscramble(word):
+    fileList - Your File List
     """
-    Unscramble the Word/Text
-    and returns 'Nothing was found'
-    if the results is not avaiable on
-    current Dictionary.
+    dict = {}
+    infile = open(fileList, "r")
+    for line in infile:
+        word = line.split("\n")[0]
+        word = word.lower()
+        dict[word] = 1
+    infile.close()
+    return dict
+
+dic = dictionary('DL.txt')
+
+def Unscramble(anagram):
     """
-    v = Vect2Int(Word2Vect(word))
-    result = ind.get(v, 'Nothing was found.')
-    closests_dist = 0x7FFFFFFF
-    dist = 0
-    ret = 'Nothing was found.'
+    Find simillar scrambled word into unscrambled one
 
-    if result != 'Nothing was found.':
-        for string in result:
-            dist = Levenshtein.distance(word, string)
-            if dist < closests_dist:
-                closests_dist = dist
-                ret = string
+    Params:
 
+    anagram - your text to be unscramble
+    """
+    wordList = anagram.split(None)
+    result = 'Nothing was Found.'
+    solutionList = []
+
+    for word in wordList:
+        anaList = permutation(word)
+        for ana in anaList:
+            if ana in dic:
+                dic[ana] = word
+
+    for k, v in dic.items():
+        if v != 1:
+            solutionList.append(k)
+
+    best_match = difflib.get_close_matches(anagram, solutionList, n=1, cutoff=0.2)
+    ret = ''.join(best_match)
     return ret
 
-
-async def Guess(word):
+def Guess(word, dic_file = ''):
     """
     Guessing the word with regex and returns 
     string closests to the original word
+    
+    Params:
 
-    (I'd say about 80% accuracy)
+    Word - Your guessed text
+
+    dic_file - Your dictionary file (make sure you have dictionary related to your guess!)
     """
+    result = 'Nothing was found.'
+    tmp = 'null'
+
+    tmp = word.replace('_', '?')
+    tmp = tmp.replace(' ', '')
+
+    if dic_file != '':
+        jobDic = dictionary(dic_file)
+        filtered = fnmatch.filter(jobDic, tmp)
+        print('[!] Using dic_file as filter')
+    else:
+        filtered = fnmatch.filter(dic, tmp)
+        print('[!] Using default dictionary as filter')
+    
     closests_dist = 0x7FFFFFFF
     dist = 0
-    result = 'Nothing was found.'
-
-    if '_' in word:
-        word = word.replace('_', '?')
-
-    filtered = fnmatch.filter(d, word)
 
     for guess in filtered:
-        dist = Levenshtein.distance(word, guess)
+        dist = Levenshtein.ratio(tmp, guess)
         if dist < closests_dist:
             closests_dist = dist
             result = guess
 
     return result
+
+def Reverse(word):
+    """
+    Reverse the word and then returns it
+
+    Params:
+
+    word - Your text to be reversed
+    """
+    return word[::-1]
