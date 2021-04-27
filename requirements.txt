@@ -1,11 +1,12 @@
 # -------------------------------------
 # Magic Unscrambler Word Requirements
-# Updated 4/24/2021
+# Updated 4/27/2021
 #
 # - Kirima2nd
 # -------------------------------------
-mouse 
+
 keyboard 
 pyperclip 
 aiohttp 
 aiofiles
+python-Levenshtein
