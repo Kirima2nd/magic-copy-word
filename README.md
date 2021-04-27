@@ -1,7 +1,7 @@
-# Magic Unscrambler Word
-Copy your text to get automatic results, using F4 as toggle between on and off to whether or not be able to read your copied text.
+# Magic Copy Word
+Copy your text to get automatic results, using F4 or F5 as toggle between on and off to whether or not be able to read your copied text.
 
-Source unscrambler word taken from:
+Source Dictionary word taken from here:
 
 https://github.com/tinmarr/Word-Unscrambler
 
@@ -11,13 +11,13 @@ https://github.com/tinmarr/Word-Unscrambler
 Clone the package using git or download maually and extract it somewhere.
 
 ```bash
-git clone https://github.com/Kirima2nd/magic-unscrambler-word.git
+git clone https://github.com/Kirima2nd/magic-copy-word.git
 ```
 
 Then, go to the directory using:
 
 ```bash
-cd magic-unscrambler-word
+cd magic-copy-word
 ```
 
 Install the required library below using pip:
@@ -30,6 +30,4 @@ Run the app, using these command below:
 ```bash
 python3 app.py
 ```
-
-And then press F4 to begin reading your scramble copied text and convert them into unscrambled word
 
